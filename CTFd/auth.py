@@ -438,7 +438,7 @@ def oauth_login():
     endpoint = (
         get_app_config("OAUTH_AUTHORIZATION_ENDPOINT")
         or get_config("oauth_authorization_endpoint")
-        or "https://auth.majorleaguecyber.org/oauth/authorize"
+        or "https://api.intra.42.fr/oauth/authorize"
     )
 
     if get_config("user_mode") == "teams":
@@ -478,18 +478,21 @@ def oauth_redirect():
         url = (
             get_app_config("OAUTH_TOKEN_ENDPOINT")
             or get_config("oauth_token_endpoint")
-            or "https://auth.majorleaguecyber.org/oauth/token"
+            or "https://api.intra.42.fr/oauth/token"
         )
 
         client_id = get_app_config("OAUTH_CLIENT_ID") or get_config("oauth_client_id")
         client_secret = get_app_config("OAUTH_CLIENT_SECRET") or get_config(
             "oauth_client_secret"
         )
+        redirect_uri = get_app_config("OAUTH_CALLBACK_URL") or get_config("oauth_callback_url")
         headers = {"content-type": "application/x-www-form-urlencoded"}
         data = {
+            "code": oauth_code,
             "client_id": client_id,
             "client_secret": client_secret,
-            "grant_type": "client_credentials",
+            "grant_type": "authorization_code",
+            "redirect_uri": redirect_uri
         }
         token_request = requests.post(url, data=data, headers=headers)
 
@@ -498,7 +501,7 @@ def oauth_redirect():
             user_url = (
                 get_app_config("OAUTH_API_ENDPOINT")
                 or get_config("oauth_api_endpoint")
-                or "https://api.majorleaguecyber.org/user"
+                or "https://api.intra.42.fr/v2/me"
             )
 
             headers = {
@@ -508,7 +511,7 @@ def oauth_redirect():
             api_data = requests.get(url=user_url, headers=headers).json()
 
             user_id = api_data["id"]
-            user_name = api_data["name"]
+            user_name = api_data["login"]
             user_email = api_data["email"]
 
             user = Users.query.filter_by(email=user_email).first()
