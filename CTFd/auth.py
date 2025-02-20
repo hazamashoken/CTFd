@@ -442,9 +442,9 @@ def oauth_login():
     )
 
     if get_config("user_mode") == "teams":
-        scope = "profile team"
+        scope = "profile public team"
     else:
-        scope = "profile"
+        scope = "profile public"
 
     client_id = get_app_config("OAUTH_CLIENT_ID") or get_config("oauth_client_id")
 
@@ -454,7 +454,7 @@ def oauth_login():
         error_for(
             endpoint="auth.login",
             message="OAuth Settings not configured. "
-            "Ask your CTF administrator to configure MajorLeagueCyber integration.",
+            "Ask your CTF administrator to configure 42 Intra integration.",
         )
         return redirect(url_for("auth.login"))
 

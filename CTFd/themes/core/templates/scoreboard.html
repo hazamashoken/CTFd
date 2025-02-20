@@ -37,11 +37,11 @@
 
 								{% if standing.oauth_id %}
 									{% if Configs.user_mode == 'teams' %}
-									<a href="https://majorleaguecyber.org/t/{{ standing.name }}">
+									<a href="https://profile.intra.42.fr/users/{{ standing.name }}">
 										<span class="badge badge-primary">Official</span>
 									</a>
 									{% elif Configs.user_mode == 'users' %}
-									<a href="https://majorleaguecyber.org/u/{{ standing.name }}">
+									<a href="https://profile.intra.42.fr/users/{{ standing.name }}">
 										<span class="badge badge-primary">Official</span>
 									</a>
 									{% endif %}

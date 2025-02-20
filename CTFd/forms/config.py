@@ -172,7 +172,7 @@ class VisibilitySettingsForm(BaseForm):
         choices=[
             (RegistrationVisibilityTypes.PUBLIC, "Public"),
             (RegistrationVisibilityTypes.PRIVATE, "Private"),
-            (RegistrationVisibilityTypes.MLC, "MajorLeagueCyber Only"),
+            (RegistrationVisibilityTypes.MLC, "42 Intra Only"),
         ],
         default=RegistrationVisibilityTypes.PUBLIC,
     )
