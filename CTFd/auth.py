@@ -487,10 +487,9 @@ def oauth_redirect():
         )
         headers = {"content-type": "application/x-www-form-urlencoded"}
         data = {
-            "code": oauth_code,
             "client_id": client_id,
             "client_secret": client_secret,
-            "grant_type": "authorization_code",
+            "grant_type": "client_credentials",
         }
         token_request = requests.post(url, data=data, headers=headers)
 
