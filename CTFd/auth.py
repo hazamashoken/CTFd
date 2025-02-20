@@ -448,6 +448,8 @@ def oauth_login():
 
     client_id = get_app_config("OAUTH_CLIENT_ID") or get_config("oauth_client_id")
 
+    redirect_uri = get_app_config("OAUTH_CALLBACK_URL") or get_config("oauth_callback_url")
+
     if client_id is None:
         error_for(
             endpoint="auth.login",
@@ -456,8 +458,8 @@ def oauth_login():
         )
         return redirect(url_for("auth.login"))
 
-    redirect_url = "{endpoint}?response_type=code&client_id={client_id}&scope={scope}&state={state}".format(
-        endpoint=endpoint, client_id=client_id, scope=scope, state=session["nonce"]
+    redirect_url = "{endpoint}?response_type=code&client_id={client_id}&scope={scope}&state={state}&redirect_uri={redirect_uri}".format(
+        endpoint=endpoint, client_id=client_id, scope=scope, state=session["nonce"], redirect_uri=redirect_uri
     )
     return redirect(redirect_url)
 
