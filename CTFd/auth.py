@@ -525,6 +525,13 @@ def oauth_redirect():
                         description=f"Reached the maximum number of users ({num_users_limit}).",
                     )
 
+                if any((cursus_user["cursus_id"] == 21 and cursus_user["end_at"] is not None ) for cursus_user in api_data["cursus_users"]):
+                    error_for(
+                        endpoint="auth.login",
+                        message="Only students are allowed to register.",
+                    )
+                    return redirect(url_for("auth.login"))
+
                 # Check if we are allowing registration before creating users
                 if registration_visible() or mlc_registration():
                     user = Users(
@@ -536,7 +543,7 @@ def oauth_redirect():
                     db.session.add(user)
                     db.session.commit()
                 else:
-                    log("logins", "[{date}] {ip} - Public registration via MLC blocked")
+                    log("logins", "[{date}] {ip} - Public registration via Intra blocked")
                     error_for(
                         endpoint="auth.login",
                         message="Public registration is disabled. Please try again later.",
